@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Match the Following</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f5f5f5;
+}
+
+h1 {
+  margin: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.column {
+  width: 40%;
+}
+
+.item, .drop {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.item {
+  background: #2196F3;
+  color: white;
+  cursor: grab;
+}
+
+.drop {
+  background: #eee;
+  border: 2px dashed #999;
+  min-height: 40px;
+}
+
+.correct {
+  background: green !important;
+  color: white;
+}
+
+.wrong {
+  background: red !important;
+  color: white;
+}
+</style>
+
+</head>
+<body>
+
+<h1>🎮 Match the Following</h1>
+<p>Drag the correct formula to match the tense</p>
+
+<div class="container">
+  <div class="column" id="left"></div>
+  <div class="column" id="right"></div>
+</div>
+
+<script>
+const data = [
+  { left: "Present Indefinite (Active)", right: "V1 / Do/Does + V1" },
+  { left: "Present Continuous (Active)", right: "Is/Am/Are + V1 + ing" },
+  { left: "Present Perfect (Active)", right: "Has/Have + V3" },
+
+  { left: "Present Indefinite (Passive)", right: "Is/Am/Are + V3" },
+  { left: "Present Continuous (Passive)", right: "Is/Am/Are + being + V3" },
+  { left: "Present Perfect (Passive)", right: "Has/Have + been + V3" },
+
+  { left: "Past Indefinite (Active)", right: "V2 / Did + V1" },
+  { left: "Past Continuous (Active)", right: "Was/Were + V1 + ing" },
+  { left: "Past Perfect (Active)", right: "Had + V3" },
+
+  { left: "Past Indefinite (Passive)", right: "Was/Were + V3" },
+  { left: "Past Continuous (Passive)", right: "Was/Were + being + V3" },
+  { left: "Past Perfect (Passive)", right: "Had + been + V3" },
+
+  { left: "Future Indefinite (Active)", right: "Will/Shall + V1" },
+  { left: "Future Indefinite (Passive)", right: "Will/Shall + be + V3" },
+
+  { left: "Future Perfect (Active)", right: "Will/Shall + have + V3" },
+  { left: "Future Perfect (Passive)", right: "Will/Shall + have + been + V3" }
+];
+
+// shuffle formulas
+const shuffled = [...data].sort(() => Math.random() - 0.5);
+
+const leftDiv = document.getElementById("left");
+const rightDiv = document.getElementById("right");
+
+// LEFT SIDE (questions)
+data.forEach((item, index) => {
+  let div = document.createElement("div");
+  div.className = "drop";
+  div.dataset.answer = item.right;
+  div.innerHTML = "<b>" + item.left + "</b>";
+
+  div.ondragover = (e) => e.preventDefault();
+
+  div.ondrop = (e) => {
+    let dragged = e.dataTransfer.getData("text");
+
+    if (dragged === div.dataset.answer) {
+      div.classList.add("correct");
+      div.innerHTML += "<br>" + dragged;
+    } else {
+      div.classList.add("wrong");
+      setTimeout(() => div.classList.remove("wrong"), 500);
+    }
+  };
+
+  leftDiv.appendChild(div);
+});
+
+// RIGHT SIDE (options)
+shuffled.forEach((item, index) => {
+  let div = document.createElement("div");
+  div.className = "item";
+  div.draggable = true;
+  div.textContent = item.right;
+
+  div.ondragstart = (e) => {
+    e.dataTransfer.setData("text", item.right);
+  };
+
+  rightDiv.appendChild(div);
+});
+</script>
+
+</body>
+</html>
