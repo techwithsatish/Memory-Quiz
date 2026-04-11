@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Active Passive Game</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f5f5f5;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.box {
+  width: 45%;
+  min-height: 400px;
+  border: 2px dashed #999;
+  padding: 10px;
+  background: white;
+}
+
+.item {
+  background: #2196F3;
+  color: white;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: grab;
+}
+
+.target {
+  background: #eee;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  min-height: 40px;
+}
+
+.correct {
+  background: green !important;
+}
+
+.wrong {
+  background: red !important;
+}
+</style>
+
+</head>
+<body>
+
+<h1>🎮 Active Passive Drag Game</h1>
+<p>Drag correct formula to correct tense</p>
+
+<div class="container">
+  <div class="box" id="dragBox"></div>
+  <div class="box" id="dropBox"></div>
+</div>
+
+<script>
+const data = [
+  { label: "Present Indefinite (Active)", value: "V1 / Do/Does + V1" },
+  { label: "Present Indefinite (Passive)", value: "Is/Am/Are + V3" },
+
+  { label: "Present Continuous (Active)", value: "Is/Am/Are + V1 + ing" },
+  { label: "Present Continuous (Passive)", value: "Is/Am/Are + being + V3" },
+
+  { label: "Present Perfect (Active)", value: "Has/Have + V3" },
+  { label: "Present Perfect (Passive)", value: "Has/Have + been + V3" },
+
+  { label: "Past Indefinite (Active)", value: "V2 / Did + V1" },
+  { label: "Past Indefinite (Passive)", value: "Was/Were + V3" },
+
+  { label: "Past Continuous (Active)", value: "Was/Were + V1 + ing" },
+  { label: "Past Continuous (Passive)", value: "Was/Were + being + V3" },
+
+  { label: "Past Perfect (Active)", value: "Had + V3" },
+  { label: "Past Perfect (Passive)", value: "Had + been + V3" },
+
+  { label: "Future Indefinite (Active)", value: "Will/Shall + V1" },
+  { label: "Future Indefinite (Passive)", value: "Will/Shall + be + V3" },
+
+  { label: "Future Perfect (Active)", value: "Will/Shall + have + V3" },
+  { label: "Future Perfect (Passive)", value: "Will/Shall + have + been + V3" }
+];
+
+// shuffle
+const shuffled = [...data].sort(() => Math.random() - 0.5);
+
+const dragBox = document.getElementById("dragBox");
+const dropBox = document.getElementById("dropBox");
+
+// create draggable items (formulas)
+shuffled.forEach((item, i) => {
+  const div = document.createElement("div");
+  div.className = "item";
+  div.draggable = true;
+  div.id = "drag" + i;
+  div.textContent = item.value;
+
+  div.ondragstart = (e) => {
+    e.dataTransfer.setData("text", item.value);
+  };
+
+  dragBox.appendChild(div);
+});
+
+// create drop targets (labels)
+data.forEach((item) => {
+  const div = document.createElement("div");
+  div.className = "target";
+  div.dataset.value = item.value;
+  div.innerHTML = "<b>" + item.label + "</b>";
+
+  div.ondragover = (e) => e.preventDefault();
+
+  div.ondrop = (e) => {
+    const dragged = e.dataTransfer.getData("text");
+
+    if (dragged === div.dataset.value) {
+      div.classList.add("correct");
+      div.innerHTML += "<br>" + dragged;
+    } else {
+      div.classList.add("wrong");
+      setTimeout(() => div.classList.remove("wrong"), 500);
+    }
+  };
+
+  dropBox.appendChild(div);
+});
+</script>
+
+</body>
+</html>
