@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Anglo Wars Timeline Quiz</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f4f4f4;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.timeline {
+  margin: 20px 0;
+  padding-left: 20px;
+  border-left: 3px solid #333;
+}
+
+.event {
+  margin: 10px 0;
+  padding: 6px;
+}
+
+/* Custom Colors */
+.yellow {
+  background-color: yellow;
+}
+
+.red {
+  background-color: red;
+  color: white;
+}
+
+.quiz {
+  margin-top: 30px;
+}
+
+.question {
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 10px 15px;
+  background: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #555;
+}
+
+.result {
+  font-weight: bold;
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Political Conquest of India - Timeline Quiz</h1>
+
+<div class="timeline">
+  <div class="event">1746–48: 1st Anglo Carnatic War</div>
+  <div class="event">1749–54: 2nd Anglo Carnatic War</div>
+  <div class="event">1758–63: 3rd Anglo Carnatic War</div>
+
+  <!-- Yellow Highlight -->
+  <div class="event yellow">1767–69: 1st Anglo Mysore War</div>
+
+  <div class="event">1780–84: 2nd Anglo Mysore War</div>
+  <div class="event">1790–92: 3rd Anglo Mysore War</div>
+  <div class="event">1799: 4th Anglo Mysore War</div>
+
+  <!-- Red Highlight -->
+  <div class="event red">1775–82: 1st Anglo Maratha War</div>
+
+  <div class="event">1803–05: 2nd Anglo Maratha War</div>
+  <div class="event">1817–19: 3rd Anglo Maratha War</div>
+</div>
+
+<div class="quiz">
+  <h2>Quiz</h2>
+
+  <div class="question">
+    1. When was the 1st Anglo Carnatic War?<br>
+    <input type="radio" name="q1" value="a"> 1746–48<br>
+    <input type="radio" name="q1" value="b"> 1758–63<br>
+  </div>
+
+  <div class="question">
+    2. Which war happened in 1799?<br>
+    <input type="radio" name="q2" value="a"> 3rd Mysore War<br>
+    <input type="radio" name="q2" value="b"> 4th Mysore War<br>
+  </div>
+
+  <div class="question">
+    3. When was the 3rd Anglo Maratha War?<br>
+    <input type="radio" name="q3" value="a"> 1817–19<br>
+    <input type="radio" name="q3" value="b"> 1803–05<br>
+  </div>
+
+  <button onclick="checkAnswers()">Submit</button>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+function checkAnswers() {
+  let score = 0;
+
+  if (document.querySelector('input[name="q1"]:checked')?.value === "a") score++;
+  if (document.querySelector('input[name="q2"]:checked')?.value === "b") score++;
+  if (document.querySelector('input[name="q3"]:checked')?.value === "a") score++;
+
+  document.getElementById("result").innerText = "Your Score: " + score + "/3";
+}
+</script>
+
+</body>
+</html>
